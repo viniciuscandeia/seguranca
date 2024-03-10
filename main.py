@@ -1,46 +1,22 @@
 
-from sympy import primitive_root
-import random
-import sympy
+from contas import Contas
+from usuario import Usuario
 
-# * Classe para realizar as operações matemáticas necessárias para a criptografia
+# * 1 : Definir q e a
+q = Contas.gerar_numero_primo(32)
+a = Contas.raiz_primitiva(q)
 
+# * 2 : Criar chaves dos usuários
+user1 = Usuario("User1", q, a)
+user2 = Usuario("User2", q, a)
 
-class Contas:
+# * 3 : Troca de chaves públicas entre os usuáris
+user1.get_public_key(user2.send_public_key())
+user2.get_public_key(user1.send_public_key())
 
-    # Gerar número primo (aleatório)
-    def gerar_numero_primo(bits):
+# * 4 : Definir chave secreta
+user1.set_secret_key()
+user2.set_secret_key()
 
-        while True:
-            # Gerar um número aleatório com o número de bits especificado
-            num = random.getrandbits(bits)
-
-            # Garantir que o número gerado tenha o bit mais significativo e o bit menos significativo definidos
-            num |= (1 << bits - 1) | 1
-
-            # Verificar se o número é primo usando a função isprime da biblioteca sympy
-            if sympy.isprime(num):
-                return num
-
-    # Encontrar raiz primitiva
-    def raiz_primitiva(n):
-        return primitive_root(n)
-
-    # Definir X
-
-
-
-
-class Usuario:
-
-    # Método para criptografar
-    def criptografia(conteduo: str, chave: str):
-        print("CRIPTO")
-
-    # Método para descriptografar
-    def descriptografia(conteduo: str, chave: str):
-        print("DESCRIPTO")
-
-
-pcVini = Usuario.criptografia("", "")
-pcAna = Usuario.descriptografia
+user1.show_keys()
+user2.show_keys()
