@@ -2,7 +2,7 @@
 # * Classe para realizar a troca de mensagens com chave secreta compartilhada
 
 from contas import Contas
-
+from cripto import Cripto
 
 class Usuario:
 
@@ -30,9 +30,21 @@ class Usuario:
         return self.ya
 
     # Receber a chave pública do outro usuário
-    def get_public_key(self, yb):
+    def receiver_public_key(self, yb):
         self.yb = yb
 
     # Definir a chave secreta
     def set_secret_key(self):
         self.k = Contas.chave_secreta(self.yb, self.x, self.q)
+
+    # Pegar chave secreta
+    def get_secret_key(self):
+        return self.k
+
+    # Enviar mensagem criptografada
+    def send_cripto_message(self, mensagem: str):
+        return Cripto.criptografar(mensagem, self.k)
+
+    # Receber mensagem criptografada
+    def receive_cripto_message(self, mensagem: str):
+        pass
