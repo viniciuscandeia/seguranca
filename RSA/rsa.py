@@ -35,6 +35,7 @@ class RSA:
 				return e
 
 	# * Calcular D (1/2)
+	# # TRANSFORMAR EM ITERATIVO
 	def extended_gcd(self, a: int, b: int):
 		if b == 0:
 			return a, 1, 0
@@ -51,17 +52,19 @@ class RSA:
 			return x % phi
 
 	def pegar_chave_publica(self):
-
-		# * Chave pública: [e, n]
 		return [self.e, self.n]
 
 	def pegar_chave_privada(self):
-
-		# * Chave privada: [d, n]
 		return [self.d, self.n]
 
-	def cifrar(texto: str, publicKey: list):
-		return pow(texto, publicKey[0], publicKey[1])
+	def criptografar(self, chavePublica: list, mensagem):
+		e: int = chavePublica[0]
+		n: int = chavePublica[1]
+		criptografado = [pow(ord(char), e, n) for char in mensagem]
+		return criptografado
 
-	def decifrar(texto: str, privateKey: list):
-		return pow(texto, privateKey[0], privateKey[1])
+	def descriptografar(self, chavePrivada: list, mensagem):
+		e: int = chavePrivada[0]
+		d: int = chavePrivada[1]
+		descriptografado = ''.join([chr(pow(char, d, n)) for char in mensagem])
+		return descriptografado
