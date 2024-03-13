@@ -5,7 +5,7 @@ import random
 class RSA:
 
 	def __init__(self):
-		self.bits = 32
+		self.bits = 8
 		self.p, self.q = self.selecionar_primos()
 		self.n = self.p * self.q
 		self.phi = (self.p - 1) * (self.q - 1)  # Corrigido o cálculo de phi
@@ -64,7 +64,7 @@ class RSA:
 		return criptografado
 
 	def descriptografar(self, chavePrivada: list, mensagem):
-		e: int = chavePrivada[0]
-		d: int = chavePrivada[1]
-		descriptografado = ''.join([chr(pow(char, d, n)) for char in mensagem])
-		return descriptografado
+	    d: int = chavePrivada[0]
+	    n: int = chavePrivada[1]
+	    descriptografado = ''.join([chr(pow(char, d, n)) for char in mensagem])
+	    return descriptografado

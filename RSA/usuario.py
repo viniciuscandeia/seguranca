@@ -8,10 +8,12 @@ class Usuario:
 
     def __init__(self, user: str):
 
+        self.rsa = RSA()
+
         # Nome e chaves do usuário
         self.user: str = user
-        self.privateKey = RSA().pegar_chave_privada()
-        self.publicKey = RSA().pegar_chave_publica()
+        self.privateKey = self.rsa.pegar_chave_privada()
+        self.publicKey = self.rsa.pegar_chave_publica()
 
         # Nome e chave pública de outro usuário
         self.secUser: str = ""
@@ -46,17 +48,19 @@ class Usuario:
             print(f"{self.user:>10} <-> X")
 
     def send_message(self, text):
-        print(f'Sou o usuario {self.user}, estou enviando a mensagem ---- {text}')
+        print(f'Sou o usuario \033[93m{
+              self.user}\033[0m, estou enviando a mensagem ---- {text}')
         if self.isConnected:
-            men = RSA().criptografar(self.publicKey, text)
+            men = self.rsa.criptografar(self.secPublicKey, text)
             return men
         else:
             print('Usuario desconectado')
 
     def recive_message(self, text):
-        print(f'Sou o usuario {self.user}, recebi a mensagem ---- {text}')
+        print(f'Sou o usuario \033[94m{
+              self.user}\033[0m, recebi a mensagem ---- {text}')
         if self.isConnected:
-            men = RSA().descriptografar(self.privateKey, text)
+            men = self.rsa.descriptografar(self.privateKey, text)
             print('Mensagem Descriptografada: ---- ', men)
         else:
             print('Usuario desconectado')
