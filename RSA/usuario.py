@@ -44,3 +44,20 @@ class Usuario:
             print(f"{self.user:>10} <-> {self.secUser}")
         else:
             print(f"{self.user:>10} <-> X")
+
+    def send_message(self, text):
+        print(f'Sou o usuario {self.user}, estou enviando a mensagem ---- {text}')
+        if self.isConnected:
+            men = RSA().criptografar(self.publicKey, text)
+            return men
+        else:
+            print('Usuario desconectado')
+
+    def recive_message(self, text):
+        print(f'Sou o usuario {self.user}, recebi a mensagem ---- {text}')
+        if self.isConnected:
+            men = RSA().descriptografar(self.privateKey, text)
+            print('Mensagem Descriptografada: ---- ', men)
+        else:
+            print('Usuario desconectado')
+
